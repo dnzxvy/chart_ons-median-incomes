@@ -30,7 +30,7 @@ if 'Year' in median_income_data.columns:
     for col in numeric_columns:
         median_income_data[col] = pd.to_numeric(median_income_data[col], errors='coerce')
 
-    
+
 
     year = median_income_data['Year'].astype(str).tolist()
    #.astype() changes the data type to in this case a string

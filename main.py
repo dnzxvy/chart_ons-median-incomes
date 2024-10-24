@@ -56,7 +56,7 @@ if 'Year' in median_income_data.columns:
 
 
     #plt.show()
-    plt.savefig('median_income_plot.png')  #save as an image file
+    plt.savefig('figure1_median_income_plot.png')  #save as an image file
     plt.close()
     print(median_income_data['Bottom'])
 

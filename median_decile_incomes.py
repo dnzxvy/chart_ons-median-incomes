@@ -43,8 +43,8 @@ if 'Year' in median_equivalised_data.columns:
     plt.grid(True)
     plt.legend()
 
-    #plt.show()
-    plt.savefig('figure2_median_decile_incomes.png')  # save as an image file
+    plt.show()
+    #plt.savefig('figure2_median_decile_incomes.png')  # save as an image file
     plt.close()
 
 

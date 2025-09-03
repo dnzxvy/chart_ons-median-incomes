@@ -32,7 +32,7 @@ if 'Year' in median_income_data.columns:
 
 
 
-    year = median_income_data['Year'].astype(str).tolist()
+    year = median_income_data['Year'].str[:4].astype(str)
    #.astype() changes the data type to in this case a string
 
 
@@ -40,6 +40,8 @@ if 'Year' in median_income_data.columns:
 
 
     df = pd.DataFrame(median_income_data)
+
+
 
     plt.figure(figsize=(10, 7))
     for quintile in numeric_columns:
@@ -55,10 +57,12 @@ if 'Year' in median_income_data.columns:
 
 
 
-    #plt.show()
-    plt.savefig('figure1_median_income_plot.png')  #save as an image file
+    plt.show()
+    #plt.savefig('figure1_median_income_plot.png')  #save as an image file
     plt.close()
     print(median_income_data['Bottom'])
+
+
 
 
 else:

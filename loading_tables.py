@@ -1,5 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.linear_model import LinearRegression
 
 # Load the Excel file
 file_path = 'hdiifye2023.xlsx'
@@ -138,12 +140,10 @@ print(growth_deciles.round(2).head())
 # # ==============================
 # Plotting the Quintile & Decile Analysis
 
-
 df_quintiles['Year_numeric'] = pd.to_numeric(df_quintiles['Year'].str[:4], errors='coerce')
 df_deciles['Year_numeric'] = pd.to_numeric(df_deciles['Year'].str[:4], errors='coerce')
 
 # Plot Income Gap
-
 
 plt.figure(figsize=(12,6))
 plt.plot(df_quintiles['Year_numeric'], df_quintiles['Income_Gap'], marker='o', label='Quintiles Gap')
@@ -168,25 +168,70 @@ plt.grid(True)
 plt.legend()
 plt.show()
 
-
-import pandas as pd
-
-# --- Quintiles Analysis Table ---
+# Quintiles Analysis Table
 df_quintiles['Gap_Growth_%'] = df_quintiles['Income_Gap'].pct_change(fill_method=None) * 100
 df_quintiles['Ratio_Change_%'] = df_quintiles['Income_ratio'].pct_change(fill_method=None) * 100
-
 quintiles_table = df_quintiles[['Year', 'Bottom', 'Top', 'Income_Gap', 'Income_ratio', 'Gap_Growth_%', 'Ratio_Change_%']].round(2)
 
 # Export to Excel
 quintiles_table.to_excel('quintiles_income_gap_ratio.xlsx', index=False)
 print("Quintiles table saved to 'quintiles_income_gap_ratio.xlsx'")
 
-# --- Deciles Analysis Table ---
+#  Deciles Analysis Table
 df_deciles['Gap_Growth_%'] = df_deciles['Income_Gap'].pct_change(fill_method=None) * 100
 df_deciles['Ratio_Change_%'] = df_deciles['Income_ratio'].pct_change(fill_method=None) * 100
-
 deciles_table = df_deciles[['Year', '2nd', '10th', 'Income_Gap', 'Income_ratio', 'Gap_Growth_%', 'Ratio_Change_%']].round(2)
 
 # Export to Excel
 deciles_table.to_excel('deciles_income_gap_ratio.xlsx', index=False)
 print("Deciles table saved to 'deciles_income_gap_ratio.xlsx'")
+
+# # ==============================
+# FORECASTING FUTURE INCOMES (QUINTILE)
+
+# Ensure Year column is string
+df_quintiles['Year'] = df_quintiles['Year'].astype(str)
+
+# Keep only rows where the first 4 characters are digits
+mask = df_quintiles['Year'].str[:4].str.isdigit()
+df_quintiles = df_quintiles[mask]
+
+# Convert string to integer so it can work on excel
+df_quintiles['Year_numeric'] = df_quintiles['Year'].str[:4].astype(int)
+
+# Number of years to forecast
+n_years = 20
+future_years = np.arange(df_quintiles['Year_numeric'].max() + 1,
+                          df_quintiles['Year_numeric'].max() + 1 + n_years).reshape(-1,1)
+
+# block of code first gets the latest year in the data (.max()), then starts forecasting from
+#the next year (2023). then determines where the forecast stops (.max() + 1 + n_years)
+# reshape(-1,1) ensures scikit-learn gets the right 2d shape as before the
+#data is just a 1d array e.g:Year_numeric = [1977, 1978, 1979, 1980, 1981]. this doesnt define whether
+#each number is a sample or a feature so we create it 2d with reshape
+
+# Dictionary to hold forecasts
+forecast_data = {'Year': future_years.flatten()} #.flatten() converts the array back to 1d
+#for storing it in the dataframe as pandas prefers 1d arrays for column data as it can raise an error
+
+# Forecast each quintile income
+for col in ['Bottom', '2nd', '3rd', '4th', 'Top']:
+    X = df_quintiles[['Year_numeric']] # Independent variable
+    y = df_quintiles[col] # Dependent variable
+    model = LinearRegression().fit(X, y)
+    forecast_data[col] = model.predict(future_years).round(2)
+
+# Build forecast dataframe
+forecast_quintiles = pd.DataFrame(forecast_data)
+
+# Computing Income Gap & Ratio forecast (Quintiles)
+forecast_quintiles['Income_Gap'] = forecast_quintiles['Top'] - forecast_quintiles['Bottom']
+forecast_quintiles['Income_ratio'] = forecast_quintiles['Top'] / forecast_quintiles['Bottom']
+
+print("\n Quintiles Income Forecast (next 20 years) ")
+print(forecast_quintiles)
+
+# Save to Excel
+with pd.ExcelWriter("income_forecasts.xlsx") as writer:
+    df_quintiles[['Year','Bottom','2nd','3rd','4th','Top','Income_Gap','Income_ratio']].to_excel(writer, sheet_name="Quintiles_Historical", index=False)
+    forecast_quintiles.to_excel(writer, sheet_name="Quintiles_Forecast", index=False)

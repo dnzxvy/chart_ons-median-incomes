@@ -235,3 +235,47 @@ print(forecast_quintiles)
 with pd.ExcelWriter("income_forecasts.xlsx") as writer:
     df_quintiles[['Year','Bottom','2nd','3rd','4th','Top','Income_Gap','Income_ratio']].to_excel(writer, sheet_name="Quintiles_Historical", index=False)
     forecast_quintiles.to_excel(writer, sheet_name="Quintiles_Forecast", index=False)
+
+# # ==============================
+# FORECASTING FUTURE INCOMES (DECILE)
+
+# Ensure Year column is string
+df_deciles['Year'] = df_deciles['Year'].astype(str)
+
+# Keep only rows where the first 4 characters are digits
+mask = df_deciles['Year'].str[:4].str.isdigit()
+df_deciles = df_deciles[mask]
+
+# Convert string to integer so it can work on excel
+df_deciles['Year_numeric'] = df_deciles['Year'].str[:4].astype(int)
+
+# Number of years to forecast
+n_years_decile = 20
+future_years_decile = np.arange(df_deciles['Year_numeric'].max() + 1,
+                          df_deciles['Year_numeric'].max() + 1 + n_years_decile).reshape(-1,1)
+
+
+# Dictionary to hold forecasts
+forecast_data_decile = {'Year': future_years_decile.flatten()}
+
+# Forecast each decile income
+for col in ['2nd','3rd','4th','5th','6th','7th','8th','9th','10th']:
+    X2 = df_deciles[['Year_numeric']] # Independent variable
+    y2= df_deciles[col] # Dependent variable
+    model_deciles = LinearRegression().fit(X2, y2)
+    forecast_data_decile[col] = model_deciles.predict(future_years_decile).round(2)
+
+# Build forecast dataframe
+forecast_deciles = pd.DataFrame(forecast_data_decile)
+
+# Computing Income Gap & Ratio forecast (Deciles)
+forecast_deciles['Income_Gap'] = forecast_deciles['2nd'] - forecast_deciles['10th']
+forecast_deciles['Income_ratio'] = forecast_deciles['2nd'] / forecast_deciles['10th']
+
+print("\n Deciles Income Forecast (next 20 years) ")
+print(forecast_deciles)
+
+# Save to Excel
+with pd.ExcelWriter("income_forecasts_deciles.xlsx") as writer:
+    df_deciles[['Year','2nd','3rd','4th','5th','6th','7th','8th','9th','10th']].to_excel(writer, sheet_name="Deciles_Historical", index=False)
+    forecast_deciles.to_excel(writer, sheet_name="Deciles_Forecast", index=False)

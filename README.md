@@ -54,12 +54,10 @@ chart_median_incomes_uk/
 
 ## Setup
 
-1. Clone the repository:
-
-git clone <your-repo-url>
+1. Clone the repository git clone <your-repo-url>
 cd ons-median-incomes
 
-2.Install dependencies
+2.Install dependencies:
 pip install pandas matplotlib scikit-learn numpy
 
 3.Run the script:

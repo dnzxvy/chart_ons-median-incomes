@@ -1,16 +1,41 @@
 # ons-median-incomes
 
+This project analyzes UK household disposable income using data published by the Office for National Statistics (ONS).
+It extracts, processes, and visualizes income statistics from the ONS Excel dataset: ONS: The effects of taxes and benefits on household income, disposable income estimate
+  https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality
+Using Python, the project converts the raw data into time series plots (1977 – 2022/23) and forecasts future incomes using Linear Regression.
 
-with this project, it uses the excel file from the ONS website which contains the financial stats and The effects of taxes and benefits on household income, disposable income estimate. https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality
-this project extracts the data from this xlsx file to chart the timeseries of median disposable household income from 1977 to 2022/23
-to extract this data I used the library pandas as it is a popular library used for reading, loading, and creating excel, csv, json files and more which therefore made it convinient for me to use it
+The reason behind this project was to:
+- Explore how disposable household income has changed over time.
+- Practice data wrangling using pandas.
+- Visualize trends with clear charts using matplotlib.
+- Extend the analysis by forecasting future income levels with machine learning.
 
+By making the data visual, the project helps people quickly see trends that would otherwise be hidden in spreadsheets.
+Various Features Include:
+- Load raw income data from the ONS Excel file.
+- Clean and preprocess data (handling years in formats like 1994/95).
+- Generate historical time series plots of median household income.
+- Compute income gaps and ratios across quintiles/deciles.
+- Export cleaned data and results to Excel for further analysis.
+- Forecast future income trends using Linear Regression (scikit-learn).
+- Plot historical vs. forecasted incomes side by side for comparison.
 
-with this info I extracted I was then able to use the the python package Matplotlib to convert this data and place it into a chart form to make it easier for people to view by creating a visual representation of it. [median_income_plot](https://github.com/user-attachments/assets/d68ee400-92b7-4dad-977a-9f1cb60b7047)
+Example Outputs:
+Median Income Time Series (1977–2022/23): 
 
-The Reason why I made this project was to 
+Forecast Plots: Historical vs Predicted incomes (next 20 years): 
+
+Excel Tables: Historical data + Forecast results (quintiles & deciles): 
 
 Libraries Used:
 Pandas
+ - for reading, cleaning, and exporting data
 Matplotlib
+ - for plotting income trends
+Scikit-learn
+ - for Linear Regression forecasting
+NumPy
+ - for numerical operations
+
 

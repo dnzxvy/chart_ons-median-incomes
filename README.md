@@ -63,7 +63,7 @@ This will show triple backticks literally
 1. **Clone the repository**
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/dnzxvy/chart_ons-median-incomes.git
 cd ons-median-incomes
 ```
 

@@ -34,32 +34,47 @@ By making the data visual, the project helps people quickly see trends that woul
 - **NumPy** for numerical operations
 
 ## Project Structure
+```
 chart_median_incomes_uk/
 │
-├── hdiiifye2023.xlsx # Original ONS dataset (Excel file)
-├── median_income.py # Main script for data extraction, cleaning, forecasting, and visualization
-├── income_forecasts.xlsx # Quintiles historical + forecast data
-├── income_forecasts_deciles.xlsx # Deciles historical + forecast data
-├── quintiles_income_gap_ratio.xlsx # Processed quintiles income gap & ratio
-├── deciles_income_gap_ratio.xlsx # Processed deciles income gap & ratio
+├── hdiiifye2023.xlsx                 # Original ONS dataset (Excel file)
+├── median_income.py                  # Main script for data extraction, cleaning, forecasting, and visualization
+├── income_forecasts.xlsx             # Quintiles historical + forecast data
+├── income_forecasts_deciles.xlsx     # Deciles historical + forecast data
+├── quintiles_income_gap_ratio.xlsx   # Processed quintiles income gap & ratio
+├── deciles_income_gap_ratio.xlsx     # Processed deciles income gap & ratio
 │
-├── median_income_plot.png # Median income visualization
+├── median_income_plot.png            # Median income visualization
 ├── median_quintile_decile_incomes.png # Combined quintiles & deciles plot
 ├── figure2_median_decile_incomes.png # Deciles median income plot
-├── income_gap.png # Income gap over time plot
-├── income_ratio.png # Income ratio over time plot
-├── historic_future_forecasts.png # Forecast visualization for quintiles & deciles
+├── income_gap.png                    # Income gap over time plot
+├── income_ratio.png                  # Income ratio over time plot
+├── historic_future_forecasts.png     # Forecast visualization for quintiles & deciles
 │
-└── README.md # Project documentation
+└── README.md                         # Project documentation
+```
 
 ## Setup
+```
+This will show triple backticks literally
+```
 
-1. Clone the repository git clone <your-repo-url>
+
+1. **Clone the repository**
+
+```bash
+git clone <your-repo-url>
 cd ons-median-incomes
+```
 
-2.Install dependencies:
+2. **Install dependencies**
+
+```bash
 pip install pandas matplotlib scikit-learn numpy
+```
+3. **Run the main script**
 
-3.Run the script:
-
+```bash
+Copy code
 python median_income.py
+```

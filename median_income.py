@@ -187,7 +187,7 @@ deciles_table.to_excel('deciles_income_gap_ratio.xlsx', index=False)
 print("Deciles table saved to 'deciles_income_gap_ratio.xlsx'")
 
 # # ==============================
-# FORECASTING FUTURE INCOMES (QUINTILE)
+# FORECASTING HISTORIC + FUTURE INCOMES (QUINTILE)
 
 # Ensure Year column is string
 df_quintiles['Year'] = df_quintiles['Year'].astype(str)
@@ -237,7 +237,7 @@ with pd.ExcelWriter("income_forecasts.xlsx") as writer:
     forecast_quintiles.to_excel(writer, sheet_name="Quintiles_Forecast", index=False)
 
 # # ==============================
-# FORECASTING FUTURE INCOMES (DECILE)
+# FORECASTING  HISTORIC + FUTURE INCOMES (DECILE)
 
 # Ensure Year column is string
 df_deciles['Year'] = df_deciles['Year'].astype(str)
@@ -279,3 +279,44 @@ print(forecast_deciles)
 with pd.ExcelWriter("income_forecasts_deciles.xlsx") as writer:
     df_deciles[['Year','2nd','3rd','4th','5th','6th','7th','8th','9th','10th']].to_excel(writer, sheet_name="Deciles_Historical", index=False)
     forecast_deciles.to_excel(writer, sheet_name="Deciles_Forecast", index=False)
+
+# ==============================
+# Plotting  Historic + future incomes (Quintile & Decile)
+
+# Create a figure with 2 subplots
+fig, axes = plt.subplots(1, 2, figsize=(16,6), sharey=True)
+fig.tight_layout(pad=4.0)
+
+# ==============================
+# Left Plot Quintiles
+
+# Historical quintiles
+for col, color in zip(['Bottom', '3rd', 'Top'], ['blue', 'green', 'red']):
+    axes[0].plot(df_quintiles['Year_numeric'], df_quintiles[col], label=f"{col} (Historical)", color=color)
+
+# Forecast quintiles
+for col, color in zip(['Bottom', '3rd', 'Top'], ['blue', 'green', 'red']):
+    axes[0].plot(forecast_quintiles['Year'], forecast_quintiles[col], '--', color=color, label=f"{col} (Forecast)")
+
+axes[0].set_title("Quintile Income Forecast (Next 20 Years)")
+axes[0].set_xlabel("Year")
+axes[0].set_ylabel("Income (£)")
+axes[0].legend()
+axes[0].grid(True)
+
+# ==============================
+# Right Plot Deciles
+
+# Historical deciles
+for col, color in zip(['2nd', '5th', '10th'], ['blue', 'green', 'red']):
+    axes[1].plot(df_deciles['Year_numeric'], df_deciles[col], label=f"{col} Decile (Historical)", color=color)
+
+# Forecast deciles
+for col, color in zip(['2nd', '5th', '10th'], ['blue', 'green', 'red']):
+    axes[1].plot(forecast_deciles['Year'], forecast_deciles[col], '--', color=color, label=f"{col} Decile (Forecast)")
+
+axes[1].set_title("Decile Income Forecast (Next 20 Years)")
+axes[1].set_xlabel("Year")
+axes[1].legend()
+axes[1].grid(True)
+plt.show()

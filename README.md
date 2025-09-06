@@ -1,5 +1,4 @@
 # ons-median-incomes
-
 This project analyzes UK household disposable income using data published by the Office for National Statistics (ONS).
 It extracts, processes, and visualizes income statistics from the ONS Excel dataset: ONS: The effects of taxes and benefits on household income, disposable income estimate
   https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality

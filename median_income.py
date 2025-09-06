@@ -85,8 +85,8 @@ axes[1].set_ylabel('Income (£)')
 axes[1].tick_params(axis='x', rotation=45)
 axes[1].grid(True)
 axes[1].legend()
-
-plt.show()
+#plt.show()
+plt.savefig("median_quintile_decile_incomes.png")
 
 # # ==============================
 # Analysis Functions to provide insight
@@ -153,7 +153,8 @@ plt.xlabel('Year')
 plt.ylabel('Income Gap (£)')
 plt.grid(True)
 plt.legend()
-plt.show()
+#plt.show()
+plt.savefig("income_gap.png")
 
 # Plot Income Ratio
 
@@ -166,7 +167,8 @@ plt.ylabel('Income Ratio')
 #plt.xticks(rotation=45)
 plt.grid(True)
 plt.legend()
-plt.show()
+#plt.show()
+plt.savefig("income_ratio.png")
 
 # Quintiles Analysis Table
 df_quintiles['Gap_Growth_%'] = df_quintiles['Income_Gap'].pct_change(fill_method=None) * 100
@@ -319,4 +321,5 @@ axes[1].set_title("Decile Income Forecast (Next 20 Years)")
 axes[1].set_xlabel("Year")
 axes[1].legend()
 axes[1].grid(True)
-plt.show()
+#plt.show()
+plt.savefig("historic_future_forecasts.png")
